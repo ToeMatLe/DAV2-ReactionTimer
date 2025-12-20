@@ -12,18 +12,23 @@ module Stopwatch (
     //    if start_watch is high, increment elapsed_time.
     // 4. The counter should reset to 0 with rst.
 
-logic receive;
+logic receive1khz;
 Clock_Divider clkdiv(
-    clk_in.(clk),
-    clk_out.(receive)
+    .clk_in(clk),
+    .rst(rst),
+    .clk_out(receive1khz)
 );
 
 // Use the clk from the clk divider
-always_ff @(posedge receive) begin 
-    if (start_watch) begin 
-        elapsed_time <= elapsed_time + 1;
-    end else if (rst) begin
+always_ff @(posedge receive1khz) begin 
+    if (rst) begin 
         elapsed_time <= 0;
+    end else if (start_watch) begin 
+        if (elapsed_time < 9999) begin 
+            elapsed_time <= elapsed_time + 1;
+        end 
+    end else begin 
+        elapsed_time <= elapsed_time; // if not started || ended, hold value
     end
 end
 endmodule
