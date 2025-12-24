@@ -7,10 +7,10 @@ module RandomGen (
     // Implement the shift and XOR feedback.
     // Remember to initialize the register to a non-zero value
     logic feedback;
-    always_ff @(posedge clk or rst) begin 
+    always_ff @(posedge clk or posedge rst) begin 
         if (rst) begin 
             random_number <= 8'b11010100; // Random seed
-        end if else (generate_num) begin 
+        end else if (generate_num) begin 
             feedback <= random_number[7] XOR random_number[5] XOR random_number[4] XOR random_number[3];
             random_number <= {random_number[6:0], feedback};
         end

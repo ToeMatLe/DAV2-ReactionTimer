@@ -23,7 +23,7 @@ Clock_Divider #(
 // This module exists to counter the limitation that only one anode can be on at a time.
 // We will cycle through the anodes at a rate fast enough that it appears all are on
 logic [1:0] counter
-always_ff @(posedge receive60Hz or rst) begin 
+always_ff @(posedge receive60Hz or posedge rst) begin 
     if (counter == 2'b11) begin 
         counter <= 2'b00;
     end else begin 

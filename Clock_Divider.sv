@@ -13,7 +13,7 @@ module Clock_Divider #(
 logic [16:0] counter; 
 
 // 50% Duty cycle, think square wave
-always_ff @(posedge clk_in) begin
+always_ff @(posedge clk_in or posedge rst) begin
     if (rst) begin
         clk_out <= 0;
         counter <= 0;

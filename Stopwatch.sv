@@ -20,7 +20,7 @@ Clock_Divider clkdiv(
 );
 
 // Use the clk from the clk divider
-always_ff @(posedge receive1khz) begin 
+always_ff @(posedge receive1khz or posedge rst) begin 
     if (rst) begin 
         elapsed_time <= 0;
     end else if (start_watch) begin 
