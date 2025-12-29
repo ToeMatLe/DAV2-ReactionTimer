@@ -1,6 +1,13 @@
 // RESET -> SET -> GO -> SCORE
 // Biggest problems: 
 // 1. Multiple Drivers on signals (synthesis error)
+typedef enum logic [1:0] { 
+    RESET = 2'b00,
+    SET = 2'b01,
+    GO = 2'b10,
+    SCORE = 2'b11
+} statetype;
+
 module DataPath (
     input logic clk,
     input logic rst,
@@ -20,6 +27,8 @@ Clock_Divider DUT1 (
 logic [$clog2(10000)-1:0] elapsed_time;
 logic [$clog2(10000)-1:0] displayValue;
 logic [$clog2(10000)-1:0] final_time;
+statetype next_state;
+statetype current_state;
 always_ff @(posedge clk or posedge rst) begin
   if (rst) final_time <= '0;
   else if (current_state == GO && start_stop_btn)
@@ -50,7 +59,7 @@ RandomGen DUT3 (
     .random_number(random_number)
 );
 // Display Pipeline
-logic [6:0] display_out [3:0] // 4-digit 7-segment display output 
+logic [6:0] display_out [3:0]; // 4-digit 7-segment display output 
 binary_to_ssd DUT4 (
     .binary_in(displayValue),
     .display_out(display_out)
@@ -67,8 +76,6 @@ basys_ssd DUT5 (
 // Delay Counter in 1kHz clock domain
 
 logic [$clog2(10000)-1:0] delay_time;
-statetype next_state;
-statetype current_state;
 
 always_ff @(posedge clkdiv or posedge rst) begin 
     if (rst) begin
@@ -120,10 +127,4 @@ always_comb begin
         end
     endcase
 end
-typedef enum logic [1:0] { 
-    RESET = 2'b00,
-    SET = 2'b01,
-    GO = 2'b10,
-    SCORE = 2'b11
-} statetype;
 endmodule
