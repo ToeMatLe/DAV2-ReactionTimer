@@ -18,5 +18,4 @@ always_comb begin
         default: seg_out = 7'b0000000; // Blank 
     endcase
 end
-
 endmodule

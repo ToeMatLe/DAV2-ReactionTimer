@@ -13,22 +13,22 @@ always_comb begin
 
     for(int i = 0; i < 13; i++) begin
         // Ones Place
-        if (placeholders[16:13] >= 4'b0101) {
+        if (placeholders[16:13] >= 4'b0101) begin
             placeholders[16:13] = placeholders[16:13] + 4'b0011; 
-        } 
+        end 
         // Tens Place
-        if (placeholders[20:17] >= 4'b0101) {
+        if (placeholders[20:17] >= 4'b0101) begin
             placeholders[20:17] = placeholders[20:17] + 4'b0011; 
-        }
+        end
         // Hundreds Place
-        if (placeholders[24:21] >= 4'b0101) {
+        if (placeholders[24:21] >= 4'b0101) begin
             placeholders[24:21] = placeholders[24:21] + 4'b0011; 
-        }
+        end
         // Thousands Place
-        if (placeholders[28:25] >= 4'b0101) {
+        if (placeholders[28:25] >= 4'b0101) begin
             placeholders[28:25] = placeholders[28:25] + 4'b0011; 
-        }
-        scratchpad = scratchpad << 1;
+        end
+        placeholders = placeholders << 1;
     end 
 end
  // Instantiate 7-seg decoders for each decimal digit
