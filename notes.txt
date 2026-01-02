@@ -1,0 +1,49 @@
+How to testbench:
+1. Instantiate the DUT (device under test)
+2. Generate a clock (always #5 clk = ~clk; for 100 MHz)
+3. Drive inputs (reset, enable, button pulses)
+4. Check outputs with:
+    -simple $display
+    -assert(...)
+    -or “wait until” conditions + timeouts
+5. For slow designs (like your SET delay), speed up simulation by either:
+    -shrinking divider parameters in TB, or
+    -using force/release on internal signals (acceptable in TB)
+
+template:
+`timescale 1ns/1ps
+module tb_template;
+  // 1) Declare DUT inputs as logic
+  logic clk, rst;
+
+  // 2) Declare DUT outputs as logic/wires
+  // logic [..] out;
+
+  // 3) Instantiate DUT
+  // MyModule dut (.clk(clk), .rst(rst), ...);
+
+  // 4) Clock generation (used when teting sequential logic)
+  initial clk = 0;
+  always #5 clk = ~clk; // 100MHz
+
+  // 5) Stimulus
+  initial begin
+    rst = 1;
+    repeat (5) @(posedge clk);
+    rst = 0;
+
+    for loops in testbenches run in simulation time, they do not synthesize into hardware
+
+    // drive inputs, wait, check outputs...
+    repeat (100) @(posedge clk);
+
+    $display("PASS (basic)");
+    $finish;
+  end
+endmodule
+
+
+Display notes:
+%0d → decimal value of variable
+%b → binary representation of variable
+$display("Binary Input: %0d => SSD Output: %b %b %b %b", binary_in, display_out[3], display_out[2], display_out[1], display_out[0]);
