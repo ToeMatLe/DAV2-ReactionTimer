@@ -46,4 +46,6 @@ endmodule
 Display notes:
 %0d → decimal value of variable
 %b → binary representation of variable
+%0t → prints time, 
+
 $display("Binary Input: %0d => SSD Output: %b %b %b %b", binary_in, display_out[3], display_out[2], display_out[1], display_out[0]);

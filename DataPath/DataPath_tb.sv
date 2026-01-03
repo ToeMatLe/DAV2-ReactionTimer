@@ -18,7 +18,7 @@
 //======================================================
 `timescale 1ns/1ps
 
-module Reaction_tb;
+module DataPath_tb;
 
   // DUT I/O
   logic clk;
