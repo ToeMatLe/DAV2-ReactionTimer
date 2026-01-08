@@ -123,7 +123,10 @@ always_comb begin
         end
         SCORE: begin 
             // Logic for SCORE state
-            if (start_stop_btn) next_state = RESET;
+            next_state = SCORE;
+        end
+        default: begin 
+            next_state = RESET; // Fallback to RESET
         end
     endcase
 end
